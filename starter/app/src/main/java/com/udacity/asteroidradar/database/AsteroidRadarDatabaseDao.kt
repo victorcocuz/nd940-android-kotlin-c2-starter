@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.room.*
 
 @Dao
-interface DatabaseDao {
+interface AsteroidRadarDatabaseDao {
 
     @Insert
     fun insert(databaseAsteroid: DatabaseAsteroid)

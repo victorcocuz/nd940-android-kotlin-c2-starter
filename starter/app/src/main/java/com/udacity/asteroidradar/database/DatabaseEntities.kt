@@ -1,31 +1,46 @@
 package com.udacity.asteroidradar.database
 
-import android.content.Context
-import androidx.room.Database
-import androidx.room.Room
-import androidx.room.RoomDatabase
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import com.udacity.asteroidradar.domain.Asteroid
 
-@Database(entities = [DatabaseAsteroid::class], version = 1, exportSchema = false)
-abstract class DatabaseEntities : RoomDatabase() {
-    abstract val databaseDao: DatabaseDao
+@Entity(tableName = "asteroid_table")
+data class DatabaseAsteroid (
+    @PrimaryKey
+    val asteroidId: Long = 0L,
 
-    companion object {
-        @Volatile
-        private var INSTANCE: DatabaseEntities? = null
+    @ColumnInfo(name = "code_name")
+    val codeName: String = "",
 
-        fun getInstance(context: Context): DatabaseEntities {
-            synchronized(this) {
-                var instance = INSTANCE
-                if (instance == null) {
-                    instance = Room.databaseBuilder(
-                        context.applicationContext,
-                        DatabaseEntities::class.java,
-                        "asteroid_database")
-                        .fallbackToDestructiveMigration()
-                        .build()
-                }
-                return instance
-            }
-        }
+    @ColumnInfo(name = "close_approaches")
+    val closeApproachDate: String = "",
+
+    @ColumnInfo(name = "absolute_magnitude")
+    val absoluteMagnitude: Double = -1.0,
+
+    @ColumnInfo(name = "estimated_diameter")
+    val estimatedDiameter: Double = -1.0,
+
+    @ColumnInfo(name = "relative_velocity")
+    val relativeVelocity: Double = -1.0,
+
+    @ColumnInfo(name = "distance_from_earth")
+    val distanceFromEarth: Double = -1.0,
+
+    @ColumnInfo(name = "is_potentially_hazardous")
+    val isPotentiallyHazardous: Boolean = false)
+
+fun List<DatabaseAsteroid>.asDomainModel(): List<Asteroid> {
+    return map {
+        Asteroid (
+            asteroidId = it.asteroidId,
+            codeName = it.codeName,
+            closeApproachDate = it.closeApproachDate,
+            absoluteMagnitude = it.absoluteMagnitude,
+            estimatedDiameter = it.estimatedDiameter,
+            relativeVelocity = it.relativeVelocity,
+            distanceFromEarth = it.distanceFromEarth,
+            isPotentiallyHazardous = it.isPotentiallyHazardous)
     }
 }

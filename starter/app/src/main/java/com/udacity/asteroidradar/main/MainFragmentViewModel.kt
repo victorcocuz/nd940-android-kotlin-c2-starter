@@ -2,14 +2,14 @@ package com.udacity.asteroidradar.main
 
 import android.app.Application
 import androidx.lifecycle.*
-import com.udacity.asteroidradar.database.DatabaseDao
+import com.udacity.asteroidradar.database.AsteroidRadarDatabaseDao
 import com.udacity.asteroidradar.network.*
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 
 const val APY_KEY = "qYBDhnbQLZsDAbjkUMNSHiw0ftDq57Evbp7PeLTH"
 
-class MainFragmentViewModel(val database: DatabaseDao, application: Application) :
+class MainFragmentViewModel(val radarDatabase: AsteroidRadarDatabaseDao, application: Application) :
     AndroidViewModel(application) {
     // Store data from asteroid API, picture API & response status
     private val _asteroidStatus = MutableLiveData<String>()
