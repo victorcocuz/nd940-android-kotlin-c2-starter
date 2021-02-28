@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.udacity.asteroidradar.domain.Asteroid
+import com.udacity.asteroidradar.domain.PictureOfTheDay
 
 @Entity(tableName = "asteroid_table")
 data class DatabaseAsteroid (
@@ -31,7 +32,22 @@ data class DatabaseAsteroid (
     @ColumnInfo(name = "is_potentially_hazardous")
     val isPotentiallyHazardous: Boolean = false)
 
-fun List<DatabaseAsteroid>.asDomainModel(): List<Asteroid> {
+@Entity(tableName = "picture_of_the_day_table")
+data class DatabasePictureOfTheDay (
+    @PrimaryKey(autoGenerate = true)
+    val pictureId: Long = 0L,
+
+    @ColumnInfo(name = "media_type")
+    val mediaType: String ="",
+
+    @ColumnInfo(name = "title")
+    val title: String = "",
+
+    @ColumnInfo(name = "url")
+    val url: String = "")
+
+//  Convert DatabaseAsteroid -> Domain Asteroid
+fun List<DatabaseAsteroid>.asDomainAsteroid(): List<Asteroid> {
     return map {
         Asteroid (
             asteroidId = it.asteroidId,
@@ -43,4 +59,22 @@ fun List<DatabaseAsteroid>.asDomainModel(): List<Asteroid> {
             distanceFromEarth = it.distanceFromEarth,
             isPotentiallyHazardous = it.isPotentiallyHazardous)
     }
+}
+
+//  Convert DatabasePictureOfTheDay -> Domain PictureOfTheDay
+//fun List<DatabasePictureOfTheDay>.asDomainPicture(): List<PictureOfTheDay> {
+//    return map {
+//        PictureOfTheDay(
+//            mediaType = it.mediaType,
+//            title = it.title,
+//            url = it.url
+//        )
+//    }
+//}
+fun DatabasePictureOfTheDay.asDomainPicture(): PictureOfTheDay {
+    return PictureOfTheDay(
+            mediaType = this.mediaType,
+            title = this.title,
+            url = this.url
+        )
 }

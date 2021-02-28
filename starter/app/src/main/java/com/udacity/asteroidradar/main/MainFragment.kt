@@ -12,7 +12,7 @@ class MainFragment : Fragment() {
 
     private val viewModel: MainFragmentViewModel by lazy {
         val application = requireNotNull(this.activity).application
-        val dataSource = AsteroidRadarDatabase.getInstance(application).asteroidRadarDatabaseDao
+        val dataSource = AsteroidRadarDatabase.getDatabase(application).asteroidRadarDatabaseDao
         val viewModelFactory = MainFragmentViewModelFactory(dataSource, application)
         ViewModelProvider(this, viewModelFactory).get(MainFragmentViewModel::class.java)
     }

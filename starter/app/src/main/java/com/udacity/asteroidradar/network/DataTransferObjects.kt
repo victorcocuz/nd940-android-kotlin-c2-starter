@@ -3,6 +3,8 @@ package com.udacity.asteroidradar.network
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 import com.udacity.asteroidradar.database.DatabaseAsteroid
+import com.udacity.asteroidradar.database.DatabasePictureOfTheDay
+
 @JsonClass(generateAdapter = true)
 data class NetworkAsteroidContainer(val asteroids: List<NetworkAsteroid>)
 
@@ -18,12 +20,6 @@ data class NetworkAsteroid(
     val isPotentiallyHazardous: Boolean
 )
 
-@JsonClass(generateAdapter = true)
-data class PictureOfTheDay(
-    @Json(name = "media_type") val mediaType: String,
-    val title: String,
-    val url: String)
-
 // Convert NetworkAsteroid -> DatabaseAsteroid
 fun NetworkAsteroidContainer.asDatabaseModel(): Array<DatabaseAsteroid> {
     return asteroids.map {
@@ -35,7 +31,24 @@ fun NetworkAsteroidContainer.asDatabaseModel(): Array<DatabaseAsteroid> {
             estimatedDiameter = it.estimatedDiameter,
             relativeVelocity = it.relativeVelocity,
             distanceFromEarth = it.distanceFromEarth,
-            isPotentiallyHazardous = it.isPotentiallyHazardous
-        )
+            isPotentiallyHazardous = it.isPotentiallyHazardous)
     }.toTypedArray()
+}
+
+@JsonClass(generateAdapter = true)
+data class NetworkPictureOfTheDayContainer(val pictureOfTheDay: NetworkPictureOfTheDay)
+
+@JsonClass(generateAdapter = true)
+data class NetworkPictureOfTheDay(
+    @Json(name = "media_type") val mediaType: String,
+    val title: String,
+    val url: String)
+
+//Convert NetworkPictureOfTheDay -> DatabasePictureOfTheDay
+fun NetworkPictureOfTheDayContainer.asDatabaseModel(): DatabasePictureOfTheDay {
+    return DatabasePictureOfTheDay(
+        mediaType = pictureOfTheDay.mediaType,
+        title = pictureOfTheDay.title,
+        url = pictureOfTheDay.url
+    )
 }
