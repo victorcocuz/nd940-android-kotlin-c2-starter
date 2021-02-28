@@ -45,6 +45,7 @@ class AsteroidRepository(private val database: AsteroidRadarDatabase) {
             val pictureOfTheDay = NetworkPictureOfTheDayContainer(
                 PictureApi.retrofitService.getNetworkPictureOfTheDay(com.udacity.asteroidradar.main.APY_KEY)
             )
+            database.asteroidRadarDatabaseDao.clearPictureOfTheDay()
             database.asteroidRadarDatabaseDao.insertPictureOfTheDay(pictureOfTheDay.asDatabaseModel())
         }
     }

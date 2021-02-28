@@ -46,6 +46,8 @@ fun bindTextViewToDisplayVelocity(textView: TextView, number: Double) {
 fun bindImage(imgView: ImageView, imgUrl: String?) {
     imgUrl?.let {
         val imgUri = it.toUri().buildUpon().scheme("https").build()
-        Picasso.with(imgView.context).load(imgUri).placeholder(R.drawable.placeholder_picture_of_day).into(imgView)
+        Picasso.with(imgView.context).load(imgUri)
+            .placeholder(R.drawable.placeholder_picture_of_day)
+            .error(R.drawable.placeholder_picture_of_day).into(imgView)
     }
 }
