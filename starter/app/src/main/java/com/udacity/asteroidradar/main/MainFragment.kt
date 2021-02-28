@@ -5,22 +5,29 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.udacity.asteroidradar.R
+import com.udacity.asteroidradar.database.DatabaseEntities
 import com.udacity.asteroidradar.databinding.FragmentMainBinding
 
 class MainFragment : Fragment() {
 
-    private val viewModel: MainViewModel by lazy {
-        ViewModelProvider(this).get(MainViewModel::class.java)
+    private val viewModel: MainFragmentViewModel by lazy {
+        val application = requireNotNull(this.activity).application
+        val dataSource = DatabaseEntities.getInstance(application).databaseDao
+        val viewModelFactory = MainFragmentViewModelFactory(dataSource, application)
+        ViewModelProvider(this, viewModelFactory).get(MainFragmentViewModel::class.java)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val binding = FragmentMainBinding.inflate(inflater)
         binding.lifecycleOwner = this
-
         binding.viewModel = viewModel
-
         setHasOptionsMenu(true)
+
+//        val application = requireNotNull(this.activity).application
+//        val dataSource = AsteroidDatabase.getInstance(application).asteroidDatabaseDao
+//        val viewModelFactory = MainFragmentViewModelFactory(dataSource, application)
+//        val mainFragmentViewModel = ViewModelProvider(this, viewModelFactory).get(MainFragmentViewModel::class.java)
 
         return binding.root
     }
