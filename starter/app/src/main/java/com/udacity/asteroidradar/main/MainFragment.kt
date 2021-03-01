@@ -31,7 +31,7 @@ class MainFragment : Fragment() {
         binding.asteroidList.adapter = adapter
         viewModel.asteroids.observe(viewLifecycleOwner, Observer {
             it?.let {
-                adapter.data = it
+                adapter.submitList(it)
             }
         })
 
