@@ -39,7 +39,6 @@
         android:layout_height="wrap_content"
         tools:text="Asteroid Item Test"
         tools:src="@drawable/ic_status_normal"
-        android:src="@drawable/ic_status_normal"
         android:contentDescription="@string/hazard_icon_content_desc" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
