@@ -5,11 +5,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.udacity.asteroidradar.R
 import com.udacity.asteroidradar.databinding.ListItemAsteroidBinding
 import com.udacity.asteroidradar.domain.Asteroid
 
-class MainFragmentAdapter :
+class MainFragmentAdapter(val clickListener: AsteroidListener) :
     ListAdapter<Asteroid, MainFragmentAdapter.ViewHolder>(AsteroidDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -17,22 +16,13 @@ class MainFragmentAdapter :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = getItem(position)
-        holder.bind(item)
+        holder.bind(getItem(position)!!, clickListener)
     }
 
     class ViewHolder private constructor(private val binding: ListItemAsteroidBinding) : RecyclerView.ViewHolder(binding.root) {
-
-        fun bind(item: Asteroid) {
-//            binding.asteroidItemName.text = item.codeName
-//            binding.asteroidItemDate.text = item.closeApproachDate
-//            binding.asteroidItemHazardIcon.setImageResource(
-//                when (item.isPotentiallyHazardous) {
-//                    true -> R.drawable.ic_status_potentially_hazardous
-//                    false -> R.drawable.ic_status_normal
-//                }
-//            )
+        fun bind(item: Asteroid, clickListener: AsteroidListener) {
             binding.asteroid = item
+            binding.clickListener = clickListener
             binding.executePendingBindings()
         }
 
@@ -53,4 +43,7 @@ class AsteroidDiffCallback : DiffUtil.ItemCallback<Asteroid>() {
     override fun areContentsTheSame(oldItem: Asteroid, newItem: Asteroid): Boolean {
         return oldItem == newItem
     }
+}
+class AsteroidListener(val clickListener: (asteroidId: Long) -> Unit) {
+    fun onClick(asteroid: Asteroid) = clickListener(asteroid.asteroidId)
 }
