@@ -14,12 +14,16 @@ interface AsteroidRadarDatabaseDao {
 
 //    @Update
 //    fun update(databaseAsteroid: DatabaseAsteroid)
-//
-    @Query("SELECT * FROM asteroid_table WHERE asteroidId = :key")
-    fun getAsteroidById(key: Long): LiveData<DatabaseAsteroid>
 
     @Query("SELECT * FROM asteroid_table")
     fun getAsteroids(): LiveData<List<DatabaseAsteroid>>
+
+    @Query("SELECT * FROM asteroid_table WHERE asteroidId = :key")
+    fun getAsteroidById(key: Long): DatabaseAsteroid
+
+    @Query("SELECT * FROM asteroid_table LIMIT 1")
+    fun getAsteroidRandom(): DatabaseAsteroid
+
 
 //    @Query("SELECT * FROM  asteroid_table ORDER BY asteroidId DESC LIMIT 1")
 //    fun getLatestAsteroid(): DatabaseAsteroid?

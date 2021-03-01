@@ -12,6 +12,7 @@ import com.udacity.asteroidradar.network.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
+import timber.log.Timber
 
 const val APY_KEY = "qYBDhnbQLZsDAbjkUMNSHiw0ftDq57Evbp7PeLTH"
 
@@ -41,17 +42,18 @@ class AsteroidRepository(private val database: AsteroidRadarDatabase) {
             it.asDomainAsteroids()
         }
 
-    fun getAsteroidById(key: Long): LiveData<Asteroid> =
-        Transformations.map(database.asteroidRadarDatabaseDao.getAsteroidById(key)) {
-            it.asDomainAsteroid()
+
+    suspend fun getAsteroidById(id: Long): Asteroid {
+        return withContext(Dispatchers.IO) {
+            database.asteroidRadarDatabaseDao.getAsteroidById(id).asDomainAsteroid()
         }
+    }
 
     suspend fun refreshPictureOfTheDay() {
         withContext(Dispatchers.IO) {
             val pictureOfTheDay = NetworkPictureOfTheDayContainer(
                 PictureApi.retrofitService.getNetworkPictureOfTheDay(APY_KEY)
             )
-//            database.asteroidRadarDatabaseDao.clearPictureOfTheDay()
             database.asteroidRadarDatabaseDao.insertPictureOfTheDay(pictureOfTheDay.asDatabaseModel())
         }
     }

@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="asteroid"
             type="com.udacity.asteroidradar.domain.Asteroid" />
 
         <variable
             name="clickListener"
-            type="com.udacity.asteroidradar.main.AsteroidListener"/>
+            type="com.udacity.asteroidradar.main.AsteroidListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -25,6 +26,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            android:textColor="@color/default_text_color"
             android:textStyle="bold"
             app:asteroidName="@{asteroid}"
             app:layout_constraintEnd_toEndOf="parent"
@@ -37,6 +39,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            android:textColor="@color/default_text_color"
             android:textSize="14sp"
             app:asteroidDate="@{asteroid}"
             app:layout_constraintEnd_toEndOf="parent"

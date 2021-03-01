@@ -8,6 +8,8 @@ import com.udacity.asteroidradar.network.*
 import com.udacity.asteroidradar.repository.AsteroidRepository
 import kotlinx.coroutines.launch
 import androidx.lifecycle.LiveData
+import com.udacity.asteroidradar.domain.Asteroid
+import timber.log.Timber
 
 
 class MainFragmentViewModel(application: Application) :
