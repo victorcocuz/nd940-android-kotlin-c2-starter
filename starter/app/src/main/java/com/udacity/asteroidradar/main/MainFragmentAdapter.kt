@@ -24,14 +24,16 @@ class MainFragmentAdapter :
     class ViewHolder private constructor(private val binding: ListItemAsteroidBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: Asteroid) {
-            binding.asteroidItemName.text = item.codeName
-            binding.asteroidItemDate.text = item.closeApproachDate
-            binding.asteroidItemHazardIcon.setImageResource(
-                when (item.isPotentiallyHazardous) {
-                    true -> R.drawable.ic_status_potentially_hazardous
-                    false -> R.drawable.ic_status_normal
-                }
-            )
+//            binding.asteroidItemName.text = item.codeName
+//            binding.asteroidItemDate.text = item.closeApproachDate
+//            binding.asteroidItemHazardIcon.setImageResource(
+//                when (item.isPotentiallyHazardous) {
+//                    true -> R.drawable.ic_status_potentially_hazardous
+//                    false -> R.drawable.ic_status_normal
+//                }
+//            )
+            binding.asteroid = item
+            binding.executePendingBindings()
         }
 
         companion object {

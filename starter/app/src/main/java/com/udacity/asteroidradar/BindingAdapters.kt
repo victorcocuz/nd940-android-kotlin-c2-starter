@@ -5,6 +5,7 @@ import android.widget.TextView
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import com.squareup.picasso.Picasso
+import com.udacity.asteroidradar.domain.Asteroid
 
 @BindingAdapter("statusIcon")
 fun bindAsteroidStatusImage(imageView: ImageView, isHazardous: Boolean) {
@@ -42,6 +43,7 @@ fun bindTextViewToDisplayVelocity(textView: TextView, number: Double) {
     textView.text = String.format(context.getString(R.string.km_s_unit_format), number)
 }
 
+// Main fragment Picture Of The Day
 @BindingAdapter("imageUrl")
 fun bindImage(imgView: ImageView, imgUrl: String?) {
     imgUrl?.let {
@@ -49,5 +51,32 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
         Picasso.with(imgView.context).load(imgUri)
             .placeholder(R.drawable.placeholder_picture_of_day)
             .error(R.drawable.placeholder_picture_of_day).into(imgView)
+    }
+}
+
+// Main fragment Asteroid data
+@BindingAdapter("asteroidName")
+fun TextView.setAsteroidName(item: Asteroid?) {
+    item?.let {
+        text = item.codeName
+    }
+}
+
+@BindingAdapter("asteroidDate")
+fun TextView.setAsteroidDate(item: Asteroid?) {
+    item?.let {
+        text = item.closeApproachDate
+    }
+}
+
+@BindingAdapter("asteroidPotentiallyHazardous")
+fun ImageView.setAsteroidIsPotentiallyDangerous(item: Asteroid?) {
+    item?.let {
+        setImageResource(
+            when (item.isPotentiallyHazardous) {
+                true -> R.drawable.ic_status_potentially_hazardous
+                false -> R.drawable.ic_status_normal
+            }
+        )
     }
 }
