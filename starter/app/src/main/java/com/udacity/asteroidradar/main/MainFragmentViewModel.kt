@@ -9,9 +9,8 @@ import com.udacity.asteroidradar.repository.AsteroidRepository
 import kotlinx.coroutines.launch
 import androidx.lifecycle.LiveData
 
-const val APY_KEY = "qYBDhnbQLZsDAbjkUMNSHiw0ftDq57Evbp7PeLTH"
 
-class MainFragmentViewModel(val radarDatabase: AsteroidRadarDatabaseDao, application: Application) :
+class MainFragmentViewModel(application: Application) :
     AndroidViewModel(application) {
 
     private val asteroidRepository = AsteroidRepository(AsteroidRadarDatabase.getDatabase(application))

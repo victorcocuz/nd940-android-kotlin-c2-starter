@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.udacity.asteroidradar.database.AsteroidRadarDatabase
 import com.udacity.asteroidradar.database.asDomainAsteroid
+import com.udacity.asteroidradar.database.asDomainAsteroids
 import com.udacity.asteroidradar.database.asDomainPicture
 import com.udacity.asteroidradar.domain.Asteroid
 import com.udacity.asteroidradar.domain.PictureOfTheDay
@@ -11,7 +12,6 @@ import com.udacity.asteroidradar.network.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
-import timber.log.Timber
 
 const val APY_KEY = "qYBDhnbQLZsDAbjkUMNSHiw0ftDq57Evbp7PeLTH"
 
@@ -24,7 +24,7 @@ class AsteroidRepository(private val database: AsteroidRadarDatabase) {
                 parseAsteroidsJsonResult(
                     JSONObject(
                         AsteroidApi.retrofitService.getNetworkAsteroids(
-                            com.udacity.asteroidradar.main.APY_KEY,
+                            APY_KEY,
                             getNextSevenDaysFormattedDates()[0],
                             getNextSevenDaysFormattedDates()[7]
                         )
@@ -36,21 +36,28 @@ class AsteroidRepository(private val database: AsteroidRadarDatabase) {
     }
 
     // Define main Interface for asteroid repository
-    val asteroids: LiveData<List<Asteroid>> = Transformations.map(database.asteroidRadarDatabaseDao.getAsteroids()) {
-        it.asDomainAsteroid()
-    }
+    val asteroids: LiveData<List<Asteroid>> =
+        Transformations.map(database.asteroidRadarDatabaseDao.getAsteroids()) {
+            it.asDomainAsteroids()
+        }
+
+    fun getAsteroidById(key: Long): LiveData<Asteroid> =
+        Transformations.map(database.asteroidRadarDatabaseDao.getAsteroidById(key)) {
+            it.asDomainAsteroid()
+        }
 
     suspend fun refreshPictureOfTheDay() {
         withContext(Dispatchers.IO) {
             val pictureOfTheDay = NetworkPictureOfTheDayContainer(
-                PictureApi.retrofitService.getNetworkPictureOfTheDay(com.udacity.asteroidradar.main.APY_KEY)
+                PictureApi.retrofitService.getNetworkPictureOfTheDay(APY_KEY)
             )
 //            database.asteroidRadarDatabaseDao.clearPictureOfTheDay()
             database.asteroidRadarDatabaseDao.insertPictureOfTheDay(pictureOfTheDay.asDatabaseModel())
         }
     }
 
-    val pictureOfTheDay: LiveData<PictureOfTheDay> = Transformations.map(database.asteroidRadarDatabaseDao.getPictureOfTheDay()) {
-        it.asDomainPicture()
-    }
+    val pictureOfTheDay: LiveData<PictureOfTheDay> =
+        Transformations.map(database.asteroidRadarDatabaseDao.getPictureOfTheDay()) {
+            it.asDomainPicture()
+        }
 }

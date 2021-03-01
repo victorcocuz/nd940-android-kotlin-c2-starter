@@ -47,7 +47,7 @@ data class DatabasePictureOfTheDay (
     val url: String = "")
 
 //  Convert DatabaseAsteroid -> Domain Asteroid
-fun List<DatabaseAsteroid>.asDomainAsteroid(): List<Asteroid> {
+fun List<DatabaseAsteroid>.asDomainAsteroids(): List<Asteroid> {
     return map {
         Asteroid (
             asteroidId = it.asteroidId,
@@ -61,16 +61,18 @@ fun List<DatabaseAsteroid>.asDomainAsteroid(): List<Asteroid> {
     }
 }
 
-//  Convert DatabasePictureOfTheDay -> Domain PictureOfTheDay
-//fun List<DatabasePictureOfTheDay>.asDomainPicture(): List<PictureOfTheDay> {
-//    return map {
-//        PictureOfTheDay(
-//            mediaType = it.mediaType,
-//            title = it.title,
-//            url = it.url
-//        )
-//    }
-//}
+fun DatabaseAsteroid.asDomainAsteroid(): Asteroid {
+    return Asteroid (
+        asteroidId = this.asteroidId,
+        codeName = this.codeName,
+        closeApproachDate = this.closeApproachDate,
+        absoluteMagnitude = this.absoluteMagnitude,
+        estimatedDiameter = this.estimatedDiameter,
+        relativeVelocity = this.relativeVelocity,
+        distanceFromEarth = this.distanceFromEarth,
+        isPotentiallyHazardous = this.isPotentiallyHazardous)
+}
+
 fun DatabasePictureOfTheDay.asDomainPicture(): PictureOfTheDay {
     return PictureOfTheDay(
             mediaType = this.mediaType,

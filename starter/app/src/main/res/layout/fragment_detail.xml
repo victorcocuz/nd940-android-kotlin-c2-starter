@@ -6,7 +6,7 @@
     <data>
         <variable
             name="asteroid"
-            type="com.udacity.asteroidradar.network.NetworkAsteroid" />
+            type="com.udacity.asteroidradar.domain.Asteroid" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
