@@ -32,15 +32,18 @@ class AsteroidRepository(private val database: AsteroidRadarDatabase) {
                     )
                 )
             )
+//            database.asteroidRadarDatabaseDao.clearAsteroids()
             database.asteroidRadarDatabaseDao.insertAsteroids(*asteroids.asDatabaseModel())
         }
     }
 
     // Define main Interface for asteroid repository
-    val asteroids: LiveData<List<Asteroid>> =
-        Transformations.map(database.asteroidRadarDatabaseDao.getAsteroids()) {
+//    val asteroids: LiveData<List<Asteroid>> =
+    fun getAsteroids(dayStart: String, dayEnd: String): LiveData<List<Asteroid>> {
+        return Transformations.map(database.asteroidRadarDatabaseDao.getAsteroids(dayStart, dayEnd)) {
             it.asDomainAsteroids()
         }
+    }
 
 
     suspend fun getAsteroidById(id: Long): Asteroid {
@@ -54,6 +57,7 @@ class AsteroidRepository(private val database: AsteroidRadarDatabase) {
             val pictureOfTheDay = NetworkPictureOfTheDayContainer(
                 PictureApi.retrofitService.getNetworkPictureOfTheDay(APY_KEY)
             )
+//            database.asteroidRadarDatabaseDao.clearPictureOfTheDay()
             database.asteroidRadarDatabaseDao.insertPictureOfTheDay(pictureOfTheDay.asDatabaseModel())
         }
     }

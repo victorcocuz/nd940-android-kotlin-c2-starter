@@ -20,7 +20,9 @@ class MainFragmentViewModel(application: Application) :
     val navigateToDetailFragment: LiveData<Long>
         get() = _navigateToDetailFragment
 
-    val asteroids = asteroidRepository.asteroids
+
+    var asteroids = asteroidRepository.getAsteroids(getNextSevenDaysFormattedDates()[0], getNextSevenDaysFormattedDates()[7])
+
     val pictureOfTheDay = asteroidRepository.pictureOfTheDay
 
     init {
@@ -28,6 +30,10 @@ class MainFragmentViewModel(application: Application) :
             asteroidRepository.refreshAsteroids()
             asteroidRepository.refreshPictureOfTheDay()
         }
+    }
+
+    fun getAsteroids(dayStart: String, dayEnd: String) {
+        asteroids = asteroidRepository.getAsteroids(dayStart, dayEnd)
     }
 
     fun onAsteroidClicked(asteroidId: Long) {

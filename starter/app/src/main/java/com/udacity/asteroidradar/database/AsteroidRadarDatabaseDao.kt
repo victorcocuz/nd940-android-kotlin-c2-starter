@@ -15,21 +15,17 @@ interface AsteroidRadarDatabaseDao {
 //    @Update
 //    fun update(databaseAsteroid: DatabaseAsteroid)
 
-    @Query("SELECT * FROM asteroid_table")
-    fun getAsteroids(): LiveData<List<DatabaseAsteroid>>
+    @Query("SELECT * FROM asteroid_table WHERE close_approaches BETWEEN :dayStart AND :dayEnd ORDER BY close_approaches ASC ")
+    fun getAsteroids(dayStart: String, dayEnd: String): LiveData<List<DatabaseAsteroid>>
 
     @Query("SELECT * FROM asteroid_table WHERE asteroidId = :key")
     fun getAsteroidById(key: Long): DatabaseAsteroid
 
-    @Query("SELECT * FROM asteroid_table LIMIT 1")
-    fun getAsteroidRandom(): DatabaseAsteroid
-
-
 //    @Query("SELECT * FROM  asteroid_table ORDER BY asteroidId DESC LIMIT 1")
 //    fun getLatestAsteroid(): DatabaseAsteroid?
 //
-//    @Query("DELETE FROM asteroid_table")
-//    fun clear()
+    @Query("DELETE FROM asteroid_table")
+    fun clearAsteroids()
 
     @Insert
     fun insertPictureOfTheDay(databasePictureOfTheDay: DatabasePictureOfTheDay)

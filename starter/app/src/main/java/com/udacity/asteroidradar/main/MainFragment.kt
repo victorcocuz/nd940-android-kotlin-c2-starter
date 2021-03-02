@@ -9,6 +9,7 @@ import androidx.navigation.fragment.findNavController
 import com.udacity.asteroidradar.MainFragmentViewModelFactory
 import com.udacity.asteroidradar.R
 import com.udacity.asteroidradar.databinding.FragmentMainBinding
+import com.udacity.asteroidradar.network.getNextSevenDaysFormattedDates
 import com.udacity.asteroidradar.main.AsteroidListener as AsteroidListener
 
 class MainFragment : Fragment() {
@@ -53,6 +54,11 @@ class MainFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.show_week_menu -> viewModel.getAsteroids(getNextSevenDaysFormattedDates()[0], getNextSevenDaysFormattedDates()[7])
+            R.id.show_today_menu -> viewModel.getAsteroids(getNextSevenDaysFormattedDates()[0], getNextSevenDaysFormattedDates()[0])
+            else -> viewModel.getAsteroids("", getNextSevenDaysFormattedDates()[0])
+        }
         return true
     }
 }

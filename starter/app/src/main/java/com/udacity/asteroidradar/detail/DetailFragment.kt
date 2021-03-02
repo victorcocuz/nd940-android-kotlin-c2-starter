@@ -11,9 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.udacity.asteroidradar.R
 import com.udacity.asteroidradar.databinding.FragmentDetailBinding
-import com.udacity.asteroidradar.main.MainFragmentViewModel
 import com.udacity.asteroidradar.MainFragmentViewModelFactory
-import timber.log.Timber
 
 class DetailFragment : Fragment() {
     // Create view model
@@ -45,7 +43,7 @@ class DetailFragment : Fragment() {
 
     private fun displayAstronomicalUnitExplanationDialog() {
         val builder = AlertDialog.Builder(requireActivity())
-            .setMessage(getString(R.string.astronomica_unit_explanation))
+            .setMessage(getString(R.string.astronomic_unit_explanation))
             .setPositiveButton(android.R.string.ok, null)
         builder.create().show()
     }
