@@ -2,6 +2,7 @@ package com.udacity.asteroidradar.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
+import com.udacity.asteroidradar.BuildConfig
 import com.udacity.asteroidradar.database.AsteroidRadarDatabase
 import com.udacity.asteroidradar.database.asDomainAsteroid
 import com.udacity.asteroidradar.database.asDomainAsteroids
@@ -14,7 +15,7 @@ import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import timber.log.Timber
 
-const val APY_KEY = "qYBDhnbQLZsDAbjkUMNSHiw0ftDq57Evbp7PeLTH"
+val APY_KEY = BuildConfig.API_KEY
 
 //Repo for fetching asteroids from the network and storing them on the disk
 class AsteroidRepository(private val database: AsteroidRadarDatabase) {
