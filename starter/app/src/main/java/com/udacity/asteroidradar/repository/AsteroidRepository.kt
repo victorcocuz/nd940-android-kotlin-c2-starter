@@ -15,7 +15,7 @@ import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import timber.log.Timber
 
-val APY_KEY = BuildConfig.API_KEY
+const val APY_KEY = BuildConfig.API_KEY
 
 //Repo for fetching asteroids from the network and storing them on the disk
 class AsteroidRepository(private val database: AsteroidRadarDatabase) {
